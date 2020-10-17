@@ -1,6 +1,33 @@
 import React, { Component } from 'react'
 
 export default class Cart extends Component {
+    constructor(props){
+        super(props);
+            this.state={
+                name:"",
+                email:"",
+                address:"",
+                showCheckOut:false
+            }
+        
+    }
+    handleInput=(e)=>{
+        this.setState({
+            [e.target.name]:e.target.value
+        })
+    }
+    createOrder=(e)=>{
+        e.preventDefault();
+        const order={
+            name:this.state.name,
+            email:this.state.email,
+            address:this.state.address,
+            cartItems:this.props.cartItems,
+            
+
+        };
+        this.props.createOrder(order);
+    }
     render() {
         const {cartItems}=this.props;
         return (
@@ -16,7 +43,7 @@ export default class Cart extends Component {
              <div className="cart">
                  <ul className="cart-items">
                      {cartItems.map(item=>(
-                        <li key={item.id}>
+                        <li key={item._id}>
                             <div>
                                 <img src={item.image} alt={item.title} />
                             </div>
@@ -41,9 +68,41 @@ export default class Cart extends Component {
                          </div>
                          
                      </div>
-                     <button className="button primary">Proceed</button>
+                     <button className="button primary" onClick={()=>this.setState({showCheckOut:true})}>Proceed</button>
                  </div>
                  )}
+                 { console.log(this.state.showCheckOut)   }
+                 {this.state.showCheckOut && (
+                     <div className="cart">
+                         <form onSubmit={this.createOrder} method="post">
+                            <ul className="form-container">
+                                <li>
+                                    <label>Email</label>
+                                    <input type="email"
+                                     name="email"
+                                      required onChange={this.handleInput} />
+                                </li>
+                                <li>
+                                    <label>Name</label>
+                                    <input type="text" 
+                                    name="name"
+                                    required onChange={this.handleInput} />
+                                </li>
+                                <li>
+                                    <label>Address</label>
+                                    <input type="text" 
+                                     name="address"
+                                     required onChange={this.handleInput} />
+                                </li>
+                                <li>
+                                    <button type="submit" className="button primary">CheckOut</button>
+                                </li>
+                            </ul>
+                         </form>
+
+                     </div>
+                 )}
+                 
             </div>
         
            
