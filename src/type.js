@@ -1,0 +1,1 @@
+export const FETCT_PRODUCTS="FETCT_PRODUCTS";
