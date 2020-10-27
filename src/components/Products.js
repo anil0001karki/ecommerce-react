@@ -4,6 +4,8 @@ import Modal from 'react-modal'
 import Zoom from 'react-reveal/Zoom'
 import {fetchProducts} from '../Actions/productAction'
 import {connect} from 'react-redux'
+import {addToCart} from '../Actions/cartAction'
+
 class Products extends Component {
     constructor(props){
         super(props);
@@ -20,7 +22,9 @@ class Products extends Component {
     closeModal=()=>{
         this.setState({product:null})
     }
+    
     render() {
+        console.log(this.props);
         const {product} = this.state;
         return (
             <div>
@@ -81,4 +85,4 @@ class Products extends Component {
         )
     }
 }
-export default connect((state)=>({products:state.products.filteredItems}),{fetchProducts})(Products)
+export default connect((state)=>({products:state.products.filteredItems}),{fetchProducts,addToCart})(Products)
