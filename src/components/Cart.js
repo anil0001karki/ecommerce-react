@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
 import { removeFromCart } from "../Actions/cartAction";
-// import { createOrder, clearOrder } from "../actions/orderActions";
-
+import {createOrder,clearOrder} from '../Actions/orderAction'
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +15,7 @@ class Cart extends Component {
       showCheckout: false,
     };
   }
+  
   handleInput = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -33,8 +33,12 @@ class Cart extends Component {
   closeModal = () => {
     this.props.clearOrder();
   };
+
   render() {
+    
     const { cartItems, order } = this.props;
+    console.log(this.props.cartItems);
+
     return (
       <div>
         {cartItems.length === 0 ? (
@@ -73,7 +77,7 @@ class Cart extends Component {
                   </li>
                   <li>
                     <div>Total:</div>
-                    <div></div>
+                    <div>${order.total}</div>
                   </li>
                   <li>
                     <div>Cart Items:</div>
@@ -102,7 +106,7 @@ class Cart extends Component {
                     <div>
                       <div>{item.title}</div>
                       <div className="right">
-                        {item.price} x {item.count}{" "}
+                        ${item.price} x {item.count}{" "}
                         <button
                           className="button"
                           onClick={() => this.props.removeFromCart(item)}
@@ -122,9 +126,9 @@ class Cart extends Component {
                 <div className="total">
                   <div>
                     Total:{" "}
-                    {
-                      cartItems.reduce((a, c) => a + c.price * c.count, 0)
-                    }
+                    $ {
+                      cartItems.reduce((a, c) => a + c.price * c.count, 0
+                    )}
                   </div>
                   <button
                     onClick={() => {
@@ -188,8 +192,8 @@ class Cart extends Component {
 
 export default connect(
   (state) => ({
-    // order: state.order.order,
+    order: state.order.order,
     cartItems: state.cart.cartItems,
   }),
-  { removeFromCart }
+  { removeFromCart, createOrder, clearOrder }
 )(Cart);
